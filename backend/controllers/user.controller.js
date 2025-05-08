@@ -60,14 +60,14 @@ export const login = async (req, res) => {
         id: user._id,
      },
      config.JWT_USER_PASSWORD,
-     { expiresIn: "1d"}
+     { expiresIn: "30d"}
     );
     
     const cookieOptions = {
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
+      expires: new Date(Date.now() + 30 * 44 * 60 * 60 * 1000), // 1 day
       httpOnly: true, //  can't be accsed via js directly
       secure: process.env.NODE_ENV === "production", // true for https only
-      sameSite: "Strict", // CSRF attacks
+      sameSite: "strict", // CSRF attacks
     };
     res.cookie("jwt", token, cookieOptions);
    
@@ -83,7 +83,7 @@ export const login = async (req, res) => {
   export const logout = (req, res) => {
     try {
       if(!req.cookies.jwt){
-          return res.status(401).json({ errors: "kindly ogin first"});
+          return res.status(401).json({ errors: "kindly orgin first"});
       }
      
       res.clearCookie("jwt");
