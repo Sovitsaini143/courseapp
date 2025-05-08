@@ -1,7 +1,7 @@
 import { User } from "../models/user.model.js";
 import  bcrypt  from "bcryptjs"
 import { z } from "zod";
-import config from "../config.js";
+import config from "../config.js"
 import jwt from "jsonwebtoken";
 import { Purchase } from "../models/purchase.model.js";
 import { Course } from "../models/course.model.js";
@@ -55,44 +55,39 @@ export const login = async (req, res) => {
         return res.status(403).json({ errors: "Invalid credentials" });
       }
 
-    //   jwt code
-     const token=jwt.sign({
+     // jwt code
+     const token = jwt.sign(
+      {
         id: user._id,
-     },
-     config.JWT_USER_PASSWORD,
-     { expiresIn: "30d"}
+      },
+      config.JWT_USER_PASSWORD,
+      { expiresIn: "30d" }
     );
-    
     const cookieOptions = {
-      expires: new Date(Date.now() + 30 * 44 * 60 * 60 * 1000), // 1 day
-      httpOnly: true, //  can't be accsed via js directly
-      secure: process.env.NODE_ENV === "production", // true for https only
-      sameSite: "strict", // CSRF attacks
+      maxAge: 30 * 44 * 60 * 60 * 1000, // MS
+    httpOnly: true, // prevent XSS attacks cross-site scripting attacks
+    sameSite: "strict", // CSRF attacks cross-site request forgery attacks
+    secure: process.env.NODE_ENV !== "development",
     };
     res.cookie("jwt", token, cookieOptions);
-   
-      res.status(201).json({ message: "Login successful", user, token });
-    } catch (error) {
-      res.status(500).json({ errors: "Error in login" });
-      console.log("error in login", error);
-    }
-  };
-  
+    res.status(201).json({ message: "Login successful", user, token });
+  } catch (error) {
+    res.status(500).json({ errors: "Error in login" });
+    console.log("error in login", error);
+  }
+};
 
 
-  export const logout = (req, res) => {
-    try {
-      if(!req.cookies.jwt){
-          return res.status(401).json({ errors: "kindly orgin first"});
-      }
-     
-      res.clearCookie("jwt");
-      res.status(200).json({ message: "Logged out successfully" });
-    } catch (error) {
-      res.status(500).json({ errors: "Error in logout" });
-      console.log("Error in logout", error);
-    }
-  };
+
+export const logout = (req, res) => {
+  try {
+    res.clearCookie("jwt");
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    res.status(500).json({ errors: "Error in logout" });
+    console.log("Error in logout", error);
+  }
+};
 
   export const purchases = async (req, res) => {
     const userId = req.userId;
