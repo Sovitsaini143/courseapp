@@ -10,7 +10,6 @@ import { HiMenu, HiX } from "react-icons/hi"; // Icons for sidebar toggle
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../utils/utils";
 
-
 function Purchases() {
   const [purchases, setPurchase] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
