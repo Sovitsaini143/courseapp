@@ -92,19 +92,19 @@ function Courses() {
         <nav>
           <ul>
             <li className="mb-4">
-              <a href="/" className="flex items-center">
+              <Link to="/" className="flex items-center">
                 <RiHome2Fill className="mr-2" /> Home
-              </a>
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="#" className="flex items-center text-blue-500">
+              <Link to="/courses" className="flex items-center text-blue-500">
                 <FaDiscourse className="mr-2" /> Courses
-              </a>
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="/purchases" className="flex items-center">
+              <Link to="/purchases" className="flex items-center">
                 <FaDownload className="mr-2" /> Purchases
-              </a>
+              </Link>
             </li>
             <li className="mb-4">
               <a href="#" className="flex items-center">
