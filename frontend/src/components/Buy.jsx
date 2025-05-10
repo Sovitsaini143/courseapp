@@ -15,7 +15,7 @@ function Buy() {
   const [error, setError] = useState("");
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const token = user?.token;  //using optional chaining to avoid crashing incase token is not there!!!
+  const token = user.token;  //using optional chaining to avoid crashing incase token is not there!!!
 
   const stripe = useStripe();
   const elements = useElements();
@@ -27,6 +27,11 @@ function Buy() {
 
   useEffect(() => {
     const fetchBuyCourseData = async () => {
+      if (!token) {
+        setError("Please login to purchase the course");
+        return;
+      }
+    
       try {
         const response = await axios.post(
           `${BACKEND_URL}/course/buy/${courseId}`,
