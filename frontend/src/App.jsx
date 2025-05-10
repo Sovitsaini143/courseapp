@@ -16,7 +16,7 @@ import OurCourses from './admin/OurCourses'
 
 function App() {
 
-  const user=JSON.parse(localStorage.getItem("user"));
+  // const user=JSON.parse(localStorage.getItem("user"));
   const admin=JSON.parse(localStorage.getItem("admin"));
 
   return (
@@ -29,7 +29,7 @@ function App() {
         {/* other routes */}
         <Route path="/courses" element={<Courses />} />
         <Route path="/buy/:courseId" element={<Buy />} />
-        <Route path="/purchases" element={user?<Purchases/> : <Navigate to={"/signup"} />} />
+        <Route path="/purchases" element={<Purchases/>} />
 
         
         {/* Admin Routes */}
