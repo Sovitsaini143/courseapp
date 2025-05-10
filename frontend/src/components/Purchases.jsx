@@ -18,13 +18,13 @@ function Purchases() {
 
   const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem("user"));
-  const token = user.token; // using optional chaining to avoid app crashing
+  const token = user?.token; // using optional chaining to avoid app crashing
 
   console.log("purchases: ", purchases);
 
   // Token handling
   useEffect(() => {
-    const token = localStorage.getItem("user");
+ 
     if (token) {
       setIsLoggedIn(true);
     } else {
@@ -32,16 +32,13 @@ function Purchases() {
     }
   }, []);
 
- 
+  if (!token) {
+    navigate("/login");
+  }
+
   // Fetch purchases
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user.token;
     const fetchPurchases = async () => {
-      if(!token){
-        setErrorMessage("Please login to purchase the courses");
-        return;
-      }
       try {
         const response = await axios.get(`${BACKEND_URL}/user/purchases`, {
           headers: {
@@ -99,9 +96,9 @@ function Purchases() {
               </Link>
             </li>
             <li className="mb-4">
-              <Link to="/purchases" className="flex items-center text-blue-500">
+              <a href="#" className="flex items-center text-blue-500">
                 <FaDownload className="mr-2" /> Purchases
-              </Link>
+              </a>
             </li>
             <li className="mb-4">
               <Link to="/settings" className="flex items-center">
